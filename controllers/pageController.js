@@ -16,16 +16,6 @@ exports.getContactPage = (req, res) => {
     });
 };
 
-exports.getCourseSingle = (req, res) => {
-    res.status(200).render('course-single');
-};
-
-exports.getCourses = (req, res) => {
-    res.status(200).render('courses', {
-        page_name: 'courses',
-    });
-};
-
 exports.getDashboard = (req, res) => {
     res.status(200).render('dashboard', {
         page_name: 'dashboard',
