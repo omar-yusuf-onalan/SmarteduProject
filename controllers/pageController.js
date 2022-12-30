@@ -17,19 +17,13 @@ exports.getContactPage = (req, res) => {
     });
 };
 
-exports.getDashboard = (req, res) => {
-    res.status(200).render('dashboard', {
-        page_name: 'dashboard',
-    });
-};
-
-exports.getLogin = (req, res) => {
+exports.getLoginPage = (req, res) => {
     res.status(200).render('login', {
         page_name: 'login',
     });
 };
 
-exports.getRegister = (req, res) => {
+exports.getRegisterPage = (req, res) => {
     res.status(200).render('register', {
         page_name: 'register',
     });
