@@ -1,3 +1,4 @@
+const slugify = require('slugify');
 const Course = require('../models/Course');
 const Category = require('../models/Category');
 const User = require('../models/User')
@@ -36,6 +37,28 @@ exports.deleteCourse = async (req, res) => {
       });
     }
   };
+
+exports.updateCourse = async (req, res) => {
+try {    
+    
+    const updatedCourse = await Course.findOneAndUpdate({ slug: req.params.slug }, req.body);
+
+    req.params.slug = slugify(req.body.name,{
+        lower: true,
+        strict: true,
+    });
+
+    await updatedCourse.updateOne( {slug: req.params.slug} );
+
+    res.status(200).redirect('/users/dashboard');
+    
+} catch (error) {
+    res.status(400).json({
+    status: 'fail',
+    error,
+    });
+}
+};
 
 exports.getAllCourses = async (req, res) => {
     try {
