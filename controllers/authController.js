@@ -20,35 +20,35 @@ exports.createUser = async (req, res) => {
     }
 };
 
-exports.loginUser = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      await User.findOne({ email }, (err, user) => {
-        if (user) {
-          bcrypt.compare(password, user.password, (err, same) => {
-  
-            if (same) {
-              // USER SESSION
-              req.session.userID = user._id;
-              res.status(200).redirect('/users/dashboard');
-            } else {
-              req.flash("error", "Your password is not correct!");
-              res.status(400).redirect('/login');
-            }
-  
-          });
-        } else {
-          req.flash("error", "User does not exist!");
-          res.status(400).redirect('/login');
-        }
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: 'fail',
-        error,
-      });
-    }
-  };
+exports.loginUser = (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = User.findOne({ email }, (err, user) => {
+      if (user) {
+        bcrypt.compare(password, user.password, (err, same) => {
+
+          if (same) {
+            // USER SESSION
+            req.session.userID = user._id;
+            res.status(200).redirect('/users/dashboard');
+          } else {
+            req.flash("error", "Your password is not correct!");
+            res.status(400).redirect('/login');
+          }
+
+        });
+      } else {
+        req.flash("error", "User does not exist!");
+        res.status(400).redirect('/login');
+      }
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      error,
+    });
+  }
+};
 
 exports.logoutUser = (req, res) => {
     req.session.destroy(() => {
